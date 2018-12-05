@@ -19,7 +19,21 @@ class Day5 : BaseDay {
 	}
 
 	override fun part2() {
-		TODO()
+		val charSet = HashSet<Char>()
+		inputList.map { it.toLowerCase() }
+			.forEach { charSet.add(it) }
+
+		var charReduced = HashMap<Char, Int>()
+		charSet.forEach {
+			val reduced = ArrayList<Char>(inputList)
+			reduced.removeAll(arrayListOf(it, it.toUpperCase()))
+			charReduced.put(it, react(reduced))
+		}
+
+		val shortestPolymer = charReduced.values.min()
+
+		println("shortest: " + shortestPolymer)
+
 	}
 
 	fun react(inputList: List<Char>): Int {
