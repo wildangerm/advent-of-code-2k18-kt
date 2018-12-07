@@ -37,7 +37,23 @@ class Day6 : BaseDay {
 	}
 
 	override fun part2() {
+		var safeRegionSize = 0
 
+		for (x in 0..grid.size - 1) {
+			for (y in 0..grid[0].size - 1) {
+
+				var distanceSum = 0
+
+				for (coordinate in inputList) {
+					distanceSum += getDistToCoordinate(coordinate, x, y)
+				}
+				if (distanceSum < SAFE_REGION_DISTANCE) {
+					safeRegionSize++
+				}
+			}
+		}
+
+		println("size of safe region: " + safeRegionSize)
 	}
 
 	private fun excludeInfinite(): List<Int> {
