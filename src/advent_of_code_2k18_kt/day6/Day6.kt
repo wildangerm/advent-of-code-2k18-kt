@@ -25,11 +25,71 @@ class Day6 : BaseDay {
 				grid[x][y] = getClosestCoordinateID(x, y)
 			}
 		}
-		println(1)
+
+		val candidatesIDs = excludeInfinite()
+
+		val flatFilteredGrid = grid.flatMap { it.asIterable() }.filter { candidatesIDs.contains(it) }
+
+		val max = flatFilteredGrid.asSequence().groupBy { it }.map { it.value.size }.maxBy { it }
+
+		println("max: " + max)
+
 	}
 
 	override fun part2() {
-		TODO()
+
+	}
+
+	private fun excludeInfinite(): List<Int> {
+		val candidates = ArrayList<Coordinate>()
+
+		val toExclude = getIDsToExclude()
+
+		inputList.forEach {
+			if (!toExclude.contains(it.ID)) {
+				candidates.add(it)
+			}
+		}
+		return candidates.map { it.ID }
+	}
+
+	private fun getIDsToExclude(): Set<Int> {
+		val toExclude = HashSet<Int>()
+
+		// Walk the outer edges, and if we find an ID, it is to be excluded
+		// Top
+		for (x in 0..grid.size - 1) {
+			val gridElement = grid[x][0];
+			if (gridElement != -1) {
+				toExclude.add(gridElement);
+			}
+		}
+
+		// Bottom
+		for (x in 0..grid.size - 1) {
+			val gridElement = grid[x][grid[0].size - 1];
+			if (gridElement != -1) {
+				toExclude.add(gridElement);
+			}
+		}
+
+		// Left
+		for (y in 0..grid[0].size - 1) {
+			val gridElement = grid[0][y];
+			if (gridElement != -1) {
+				toExclude.add(gridElement);
+			}
+		}
+
+		// Right
+		for (y in 0..grid[0].size - 1) {
+			val gridElement = grid[grid.size - 1][y];
+			if (gridElement != -1) {
+				toExclude.add(gridElement);
+			}
+		}
+
+		return toExclude;
 	}
 
 	private fun getClosestCoordinateID(x: Int, y: Int): Int {
@@ -58,7 +118,7 @@ class Day6 : BaseDay {
 	}
 
 	fun readFile() {
-		val pathString = getPathStringToInput("testinput.txt")
+		val pathString = getPathStringToInput("input.txt")
 		val lines: ArrayList<String> = ArrayList(File(pathString).readLines())
 
 		inputList = ArrayList(lines.map { line -> createCoordinateFromRegex(line) })
