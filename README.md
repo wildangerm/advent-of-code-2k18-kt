@@ -3,3 +3,5 @@
 I'm pretty new to Kotlin, so if you can find any improvements please let me know.
 
 Also I'm doing Advent of Code in Java too, you can find the repository [here.](https://github.com/wildangerm/advent-of-code-2k18)
+
+Check out my page for more projects/updates/info: [wildangerm.github.io](https://wildangerm.github.io/)
